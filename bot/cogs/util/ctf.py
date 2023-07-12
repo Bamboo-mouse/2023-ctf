@@ -86,7 +86,7 @@ class CFTCog(BaseCog, name="CTF"):
 
         embed.description = "\n".join(
             f"{i+1}. <@{user.id}> 共完成了 {user.total} 項\n"
-            + "  ".join(
+            + "\n".join(
                 f"  {TASKS_NAME[i]}: "
                 + (
                     f"於 <t:{int(time.mktime(d.timetuple()))}> 完成作答"
