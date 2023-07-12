@@ -1,5 +1,4 @@
 import json
-import time
 from typing import Union, NamedTuple
 import requests
 from datetime import datetime
@@ -12,7 +11,9 @@ _ = Translator(__name__)
 
 _T = Union[str, datetime]
 TASKS_NAME = ["A", "B", "C", "D", "E", "F"]
-SCORE_DEFAULT = [1, 100, 150, 200, 300, 0]
+SCORE_DEFAULT = [2, 100, 150, 200, 300, 1]
+# black list: sapiens_homo, watermelon1024
+BLACK_LIST = [672062718672371722, 574515974573785098]
 
 
 class UserData(NamedTuple):
@@ -51,6 +52,9 @@ class CFTCog(BaseCog, name="CTF"):
             if not sum(user_data):
                 # print(f"no data: {id}")
                 continue
+            if int(id) in BLACK_LIST:
+                # print(f"black list: {id}")
+                continue
 
             a, b, c, d, e, f = user_data
             user_data = UserData(
@@ -64,7 +68,7 @@ class CFTCog(BaseCog, name="CTF"):
                     format_time(f),
                 ),
                 len(list(filter(bool, tmp_data))),
-                sum([SCORE_DEFAULT[i] for i, x in enumerate(tmp_data) if x]),
+                sum(SCORE_DEFAULT[i] for i, x in enumerate(tmp_data) if x),
             )
             result.append(user_data)
 
