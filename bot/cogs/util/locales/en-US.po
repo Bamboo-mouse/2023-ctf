@@ -13,6 +13,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: dpy-template 1.0.0\n"
 
+#: bot\cogs\util\ctf.py:22
+msgid "CTF"
+msgstr ""
+
+#: bot\cogs\util\ctf.py:67 bot\cogs\util\ctf.py:68
+msgid "CTF 比賽"
+msgstr ""
+
 #: bot\cogs\util\info.py:12
 msgid "雜項"
 msgstr ""
