@@ -86,13 +86,9 @@ class CFTCog(BaseCog, name="CTF"):
 
         embed.description = "\n".join(
             f"{i+1}. <@{user.id}> 共完成了 {user.total} 項\n"
-            + "\n".join(
+            + "  ".join(
                 f"  {TASKS_NAME[i]}: "
-                + (
-                    f"於 <t:{int(time.mktime(d.timetuple()))}> 完成作答"
-                    if d is not None
-                    else "尚未作答"
-                )
+                + (f"於 <t:{int(d.timestamp())}> 完成作答" if d is not None else "尚未作答")
                 for i, d in enumerate(user.data)
             )
             for i, user in enumerate(self.get_rank())
