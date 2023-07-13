@@ -41,7 +41,7 @@ class CFTCog(BaseCog, name="CTF"):
 
         content = requests.get("http://homosserver.jp.eu.org:8080/").text.strip()
         data: dict[str, tuple[int, int, int, int]] = json.loads(
-            content[:-2] + "}" if content.endswith(",}") else content
+            content.replace(",}", "}")
         )
         result: list[UserData] = []
 
