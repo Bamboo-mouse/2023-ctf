@@ -10,17 +10,24 @@ from bot import ApplicationContext, BaseCog, Bot, Translator, cog_i18n
 _ = Translator(__name__)
 
 _T = Union[str, datetime]
+_UT = tuple[_T, _T, _T, _T, _T, _T]
 TASKS_NAME = ["A", "B", "C", "D", "E", "F"]
 SCORE_DEFAULT = [2, 100, 150, 200, 300, 1]
 # black list: sapiens_homo, watermelon1024
 BLACK_LIST = [672062718672371722, 574515974573785098]
+END_TIME = datetime.fromtimestamp(1691798400)  # 1691798400 == 2023/08/12 00:00:00Z
 
 
 class UserData(NamedTuple):
     id: str
-    data: tuple[_T, _T, _T, _T, _T, _T]
+    data: _UT
     total: int
     score: int
+
+
+def user_score_calc(data: _UT):
+    done = len(list(filter(bool, data)))
+    done
 
 
 @cog_i18n
@@ -42,9 +49,6 @@ class CFTCog(BaseCog, name="CTF"):
         )
         result: list[UserData] = []
 
-        def format_time(x: int):
-            return datetime.fromtimestamp(x) if x else None
-
         for id, user_data in data.items():
             if (len_id := len(id)) > 22 or len_id < 15:
                 # print(f"Invalid id: {id}")
@@ -55,20 +59,17 @@ class CFTCog(BaseCog, name="CTF"):
             if int(id) in BLACK_LIST:
                 # print(f"black list: {id}")
                 continue
-
-            a, b, c, d, e, f = user_data
             user_data = UserData(
                 id,
-                tmp_data := (
-                    format_time(a),
-                    format_time(b),
-                    format_time(c),
-                    format_time(d),
-                    format_time(e),
-                    format_time(f),
+                tmp_data := tuple(
+                    datetime.fromtimestamp(x) if x else None for x in user_data
                 ),
                 len(list(filter(bool, tmp_data))),
-                sum(SCORE_DEFAULT[i] for i, x in enumerate(tmp_data) if x),
+                sum(
+                    (END_TIME - x).total_seconds() * SCORE_DEFAULT[i]
+                    for i, x in enumerate(tmp_data)
+                    if x
+                ),
             )
             result.append(user_data)
 
