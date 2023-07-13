@@ -15,7 +15,7 @@ TASKS_NAME = ["A", "B", "C", "D", "E", "F"]
 SCORE_DEFAULT = [2, 100, 150, 200, 300, 1]
 # black list: sapiens_homo, watermelon1024
 BLACK_LIST = [672062718672371722, 574515974573785098]
-END_TIME = datetime.fromtimestamp(1691798400)  # 1691798400 == 2023/08/12 00:00:00Z
+START_TIME = datetime.fromtimestamp(168912000)  # 168912000 == 2023/07/12 00:00:00Z
 
 
 class UserData(NamedTuple):
@@ -23,6 +23,7 @@ class UserData(NamedTuple):
     data: _UT
     total: int
     score: int
+    total_time: int
 
 
 @cog_i18n
@@ -60,16 +61,17 @@ class CFTCog(BaseCog, name="CTF"):
                     datetime.fromtimestamp(x) if x else None for x in user_data
                 ),
                 len(list(filter(bool, tmp_data))),
-                sum(
-                    (END_TIME - x).total_seconds() * SCORE_DEFAULT[i]
-                    for i, x in enumerate(tmp_data)
-                    if x
-                ),
+                sum(SCORE_DEFAULT[i] for i, x in enumerate(tmp_data) if x),
+                sum((START_TIME - x).total_seconds() for x in tmp_data if x),
             )
             result.append(user_data)
 
         self.last_catch_data_time = datetime.now()
-        self.catch_data = sorted(result, key=lambda x: x.score, reverse=True)
+        self.catch_data = sorted(
+            result,
+            key=lambda x: (x.score, x.total, x.total_time),
+            reverse=True,
+        )
         return self.catch_data
 
     @discord.slash_command(
