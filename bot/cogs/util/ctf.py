@@ -25,11 +25,6 @@ class UserData(NamedTuple):
     score: int
 
 
-def user_score_calc(data: _UT):
-    done = len(list(filter(bool, data)))
-    done
-
-
 @cog_i18n
 class CFTCog(BaseCog, name="CTF"):
     def __init__(self, bot: "Bot") -> None:
