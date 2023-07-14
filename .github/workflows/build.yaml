@@ -44,4 +44,3 @@ jobs:
           platforms: linux/arm64
           push: true
           continue-on-error: true
-          tags: ${{ env.REGISTRY_PATH }}:latest
