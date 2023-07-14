@@ -38,7 +38,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: toLowerCase
-        run: INPUT=${{ env.REGISTRY_PATH }} echo "::set-output name=o::${INPUT}"
+        run: echo "::set-output name=o::${var,,}"
+        env:
+          var: ${{ env.REGISTRY_PATH }}
 
       - uses: docker/build-push-action@v4
         with:
