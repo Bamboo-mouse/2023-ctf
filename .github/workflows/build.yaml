@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - README.md
       - .github/**
+      - "!.github/workflow/**"
   # schedule:
   #   - cron: 33 17 * * *
   pull_request:
