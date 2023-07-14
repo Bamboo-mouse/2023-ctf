@@ -34,7 +34,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: set path env to lower case
+      - name: set path env to lower case
         run: echo "REGISTRY_PATH=${var,,}" >> "$GITHUB_ENV"
         env:
           # github.repository as <account>/<repo>
