@@ -34,8 +34,8 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: toLowerCase
-        run: echo "::set-output name=o::${var,,}"
+      - id: set path env to lower case
+        run: echo "REGISTRY_PATH=${var,,}" >> "$GITHUB_ENV"
         env:
           # github.repository as <account>/<repo>
           var: ghcr.io/${{ github.repository }}
@@ -47,4 +47,4 @@ jobs:
           platforms: linux/arm64
           push: true
           continue-on-error: true
-          tags: ${{ steps.toLowerCase.outputs.o }}:latest
+          tags: ${{ env.REGISTRY_PATH }}:latest
