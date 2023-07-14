@@ -14,11 +14,8 @@ on:
       - master
 
 env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-  REGISTRY_PATH: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  REGISTRY_PATH: ghcr.io/${{ github.repository }}
 
 jobs:
   build:
@@ -47,4 +44,4 @@ jobs:
           platforms: linux/arm64
           push: true
           continue-on-error: true
-          tags: ${{ REGISTRY_PATH }}:latest
+          tags: ${{ env.REGISTRY_PATH }}:latest
