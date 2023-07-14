@@ -37,6 +37,9 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - id: toLowerCase
+        run: INPUT=${{ env.REGISTRY_PATH }} echo "::set-output name=o::${INPUT,,}"
+
       - uses: docker/build-push-action@v4
         with:
           context: .
@@ -44,3 +47,4 @@ jobs:
           platforms: linux/arm64
           push: true
           continue-on-error: true
+          tags: ${{ steps.toLowerCase.outputs.o }}:latest
