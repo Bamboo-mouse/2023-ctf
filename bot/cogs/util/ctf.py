@@ -46,7 +46,7 @@ class CFTCog(BaseCog, name="CTF"):
         result: list[UserData] = []
 
         for id, user_data in data.items():
-            if (len_id := len(id)) > 22 or len_id < 15:
+            if len(id) < 15:
                 # print(f"Invalid id: {id}")
                 continue
             if not sum(user_data):
